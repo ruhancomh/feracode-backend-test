@@ -1,0 +1,33 @@
+{
+  "name": "feracode-backend-test-api",
+  "version": "1.0.0",
+  "description": "Fera code back-end test api",
+  "main": "app.js",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ruhanoliveira/feracode-backend-test.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "couchdb",
+    "api"
+  ],
+  "author": "Ruhan de Oliveira Baiense",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruhanoliveira/feracode-backend-test/issues"
+  },
+  "homepage": "https://github.com/ruhanoliveira/feracode-backend-test#readme"
+}

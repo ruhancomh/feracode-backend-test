@@ -8,9 +8,10 @@ module.exports = function () {
  
   let app = express()
 
-  app.use(routes)
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+
+  app.use(routes)
 
   return app
 }

@@ -9,22 +9,7 @@ class ProductsController {
 
   async get (req, res, next){
     try{
-      let result = await this.service.get(id)
-      return res.status(200).send({
-        success: true,
-        data: result
-      })
-    } catch(err) {
-      return res.status(400).send({
-        success: false,
-        message: err.message
-      })
-    }
-  }
-
-  async create (req, res, next){
-    try{
-      // TODO
+      let result = await this.service.get(req.params.id)
       return res.status(200).send({
         success: true,
         data: result
@@ -54,12 +39,25 @@ class ProductsController {
     }
   }
 
+
+  async create (req, res, next){
+    try{
+      let result = await this.service.create(req.body)
+      return res.status(200).send({
+        success: true,
+        data: result
+      })
+    } catch(err) {
+      return res.status(400).send({
+        success: false,
+        message: err.message
+      })
+    }
+  }
+
   async update (req, res, next) {
     try {
-      // TODO
-
-      // let result = await this.service.update(data)
-
+      let result = await this.service.update(req.body, req.params.id)
       return res.status(200).send({
         success: true,
         data: result
@@ -74,10 +72,7 @@ class ProductsController {
 
   async delete (req, res, next) {
     try {
-      // TODO
-
-      // let result = await this.service.update(data)
-
+      let result = await this.service.delete(req.params.id)
       return res.status(200).send({
         success: true,
         data: result

@@ -27,18 +27,28 @@ class ProductsModel {
     this.model = mongoose.model("products",productsSchema)
   }
 
-  list (data) {
-    return this.model.find()
+  get (id) {
+    return this.model.findById({_id:id})
+      .where({
+        deleted: {$ne:true}
+      })
   }
 
-  save (data) {
+  list (data) {
+    return this.model.find()
+      .where({
+        deleted: {$ne:true}
+      })
+  }
+
+  create (data) {
     return this.model.create(data)
   }
 
   update (data) {
-    data.updated_at = Date.now()
     return this.model.updateOne({_id:data._id}, data)
   }
+
 }
 
 module.exports = ProductsModel

@@ -1,11 +1,27 @@
-const express = require("express")
-const router = express.Router()
-const ProductsController = require("./../controllers/ProductsController")
+import express from "express"
+import ProductsController from "./../controllers/ProductsController"
 
-let productsController = new ProductsController()
+const router = express.Router()
+const controller = new ProductsController()
+
+router
+  .route("/:id")
+  .get( (req, res, next) =>  controller.get(req, res, next))
 
 router
   .route("/")
-  .get(productsController.get)
+  .get( (req, res, next) =>  controller.list(req, res, next))
+
+router
+  .route("/")
+  .post( (req, res, next) => controller.create(req, res, next))
+
+router
+  .route("/")
+  .put( (req, res, next) => controller.update(req, res, next))
+
+router
+  .route("/")
+  .delete( (req, res, next) => controller.delete(req, res, next))
 
 module.exports = router

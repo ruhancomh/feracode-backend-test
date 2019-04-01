@@ -1,8 +1,11 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const routes = require("./../routes")
+import express from "express"
+import bodyParser from "body-parser"
+import mongoose from "./mongoose-config"
+import routes from "../routes"
 
 module.exports = function () {
+  let db = mongoose()
+ 
   let app = express()
 
   app.use(routes)

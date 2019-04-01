@@ -1,5 +1,8 @@
-const app = require("./app/config/express")()
+import dotenv from "dotenv"
+dotenv.config()
 
-app.listen(3000, function(){
-  console.log('Servidor rodando...')
+const app = require("./app/config/express-config")()
+
+app.listen(process.env.SERVER_PORT, function(){
+  console.log(`Servidor rodando na porta ${process.env.SERVER_PORT}`)
 })

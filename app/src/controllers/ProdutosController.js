@@ -1,12 +1,17 @@
 'use strict'
 import { Produtos } from '../models/Produtos';
+import { ProductSizes } from '../models/ProductSizes';
 import { BaseController } from './BaseController';
 
 export class ProdutosController extends BaseController {
   _baseApiUrl = 'products'
 
-  getModel() {
+  static getModel() {
     return new Produtos()
+  }
+
+  static getSizeModel() {
+    return new ProductSizes()
   }
 
   async create(params) {
@@ -14,6 +19,7 @@ export class ProdutosController extends BaseController {
       let produto = new Produtos(
         params.model,
         params.description,
+        params.sizes
       )
 
       let result = await this._request.post(this._baseApiUrl, produto)
@@ -29,6 +35,7 @@ export class ProdutosController extends BaseController {
       let produto = new Produtos(
         params.model,
         params.description,
+        params.sizes,
         params._id
       )
 

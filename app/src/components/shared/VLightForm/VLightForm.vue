@@ -1,6 +1,6 @@
 <template>
   <div class="v-light-form">
-    <v-tooltip bottom>
+    <v-tooltip v-if="showTooltip" bottom>
       <template v-slot:activator="{ on }">
         <v-btn
           small
@@ -11,7 +11,7 @@
           v-on="on"
           @click="showDialog()"
         >
-          <v-icon dark>mdi-library-plus</v-icon>
+          <v-icon dark>{{buttonIcon}}</v-icon>
         </v-btn>
       </template>
       <span>{{tooltipText}}</span>
@@ -99,6 +99,9 @@ export default {
     title: {
       default: ""
     },
+    showTooltip: {
+      default:true
+    },
     tooltipText: {
       default: ""
     },
@@ -138,6 +141,14 @@ export default {
     maxWidth: {
       type: Number,
       default: 400
+    },
+
+    buttonIcon: {
+      default: 'mdi-library-plus'
+    },
+
+    show: {
+      default: false
     }
   },
   data() {
@@ -148,6 +159,12 @@ export default {
     };
   },
 
+  watch: {
+    show: function(nv) {
+      this.dialogActive = nv
+    },
+  },
+
   methods: {
     showDialog() {
       this.dialogActive = true;
@@ -155,6 +172,8 @@ export default {
 
     closeDialog() {
       this.dialogActive = false;
+
+      this.$emit('onClose')
 
       if (this.clearOnClose) this.formFields = {};
     },

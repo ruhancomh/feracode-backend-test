@@ -30,7 +30,6 @@
               :table-data="tableData"
               :filters="filters"
               :default-sort="defaultSort"
-              :default-descending="defaultDescending"
               @onDeleteItem="onDeleteItem($event)"
               @onEditItem="onEditItem($event)"
             >
@@ -55,16 +54,35 @@
               >
                 <td>{{ props.item.model }}</td>
               </template>
+              <template
+                slot="actions"
+                slot-scope="props"
+              >
+                <v-btn
+                  small
+                  flat
+                  fab
+                  title="Comprar item"
+                  @click="onBuyItem(props.item)"
+                >
+                  <v-icon>mdi-cart-arrow-down</v-icon>
+                </v-btn>
+              </template>
             </custom-data-table>
           </v-card-text>
         </v-card>
       </v-flex>
+
+      <product-sale-light-form
+        v-model="productToSale"
+      />
     </v-layout>
   </v-container>
 </template>
 
 <script>
 import CustomDataTable from "./../components/shared/CustomDataTable/CustomDataTable"
+import ProductSaleLightForm from "./../components/shared/ProductSaleLightForm/ProductSaleLightForm"
 
 import { ProdutosController } from "../controllers/ProdutosController"
 
@@ -72,7 +90,8 @@ import { mapMutations } from "vuex"
 
 export default {
   components: {
-    CustomDataTable
+    CustomDataTable,
+    ProductSaleLightForm
   },
 
   data() {
@@ -94,7 +113,9 @@ export default {
         data: [],
         total: 0
       },
-      tableIpunt: {}
+      tableIpunt: {},
+
+      productToSale: {}
     }
   },
 
@@ -141,6 +162,10 @@ export default {
 
     formatCategorias (categorias){
       return categorias ? categorias.map(item => item.nome).join(' | ') : ''
+    },
+
+    onBuyItem(item) {
+      this.productToSale = item
     }
   },
 

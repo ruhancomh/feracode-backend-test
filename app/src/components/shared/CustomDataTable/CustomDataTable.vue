@@ -32,10 +32,15 @@
         slot-scope="props"
       >
         <slot name="items" v-bind:item="props.item"></slot>
-        <slot name="actions" v-bind:item="props.item">
-          <td v-if="actions" class="justify-center layout px-0">
+        <td  class="justify-center layout px-0">
+          <slot name="actions" v-bind:item="props.item">
+          </slot>
+          <template
+            v-if="defaultActions"
+          >
             <template
-              v-for="(action, index) of actions"
+              
+              v-for="(action, index) of defaultActions"
             >
               <v-btn
                 v-if="action == 'edit'"
@@ -61,8 +66,8 @@
                 <v-icon>delete</v-icon>
               </v-btn>
             </template>
-          </td>
-        </slot>        
+          </template>
+        </td>       
       </template>
       <template slot="pageText" slot-scope="props">
         Itens {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
@@ -121,7 +126,7 @@ export default {
     tableData: {
       default: null
     },
-    actions: {
+    defaultActions: {
       default: () => ['edit','del']
     },
     defaultSort: {
@@ -210,7 +215,7 @@ export default {
     },
 
     setHeaders() {
-      if(this.actions) {
+      if(this.defaultActions) {
         this.tableHeaders = [
           ...this.headers,
           {

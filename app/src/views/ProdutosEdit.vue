@@ -39,6 +39,69 @@
                     />
                   </v-flex>                              
                 </v-layout>
+                <v-layout row wrap>
+                   <v-subheader>
+                     Tamanhos
+                   </v-subheader>
+                </v-layout>
+                <v-layout
+                  v-for="(size, key) of formFields.sizes"
+                  :key="key"
+                  row
+                  wrap
+                  style="background-color:#eee; margin-bottom: 10px;"
+                  align-center
+                >
+                  <v-flex
+                    xs12
+                    md11
+                  >
+                    <v-layout row wrap>
+                      <v-flex
+                        xs12
+                        md10
+                        class="subitem"
+                      >
+                        <v-text-field
+                          v-model="size.description"
+                          label="Description"
+                          :rules="[formRules.default.required]"
+                          required
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex
+                        xs12
+                        md2
+                        class="subitem"
+                      >
+                        <v-text-field
+                          v-model="size.stock"
+                          label="Stock"
+                          type="number"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+                  <v-flex
+                    xs12
+                    md1
+                  >
+                    <v-btn color="error" fab small dark @click="removeSize(key)" title="Remover tamanho">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex
+                    xs12
+                    md2
+                  >
+                  <v-btn color="primary" large dark title="Adicionar novo tamanho" @click="addSize">
+                    <v-icon>mdi-library-plus</v-icon>
+                    Adicionar tamanho
+                  </v-btn>
+                  </v-flex>
+                </v-layout>
               </v-container>
             </v-form>
           </v-card-text>
@@ -78,29 +141,6 @@ export default {
         }
       },
 
-      categoriasOptions: [],
-      categoriasOptionsLoad: false,
-      categoriasOptionsSearch: '',
-
-      file:'',
-    }
-  },
-
-  computed: {
-    imageName() {
-      if(this.file){
-        return this.file.name
-      }
-    },
-
-    imageUrl() {
-      if(this.file){
-        let fr = new FileReader ()
-        fr.readAsDataURL(this.file)
-        fr.addEventListener('load', () => {
-          return fr.result
-        })
-      }
     }
   },
 
@@ -160,7 +200,15 @@ export default {
 
     handleFileUpload(){
       this.file = this.$refs.file.files[0]
-    }
+    },
+
+    addSize() {
+      this.formFields.sizes.push(ProdutosController.getSizeModel())
+    },
+
+    removeSize(key) {
+      this.formFields.sizes.splice(key,1)
+    },
   },
 
   async created() {
@@ -169,3 +217,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .subitem {
+    padding: 8px;
+  }
+</style>

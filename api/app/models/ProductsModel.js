@@ -1,5 +1,16 @@
 import mongoose from "mongoose"
 
+const sizesSchema = mongoose.Schema({
+  description: {
+    type: String,
+    required: true
+  },
+  stock: {
+    type: Number,
+    default: 0
+  }
+})
+
 const productsSchema = mongoose.Schema({
   model: {
     type: String,
@@ -19,7 +30,9 @@ const productsSchema = mongoose.Schema({
   deleted: {
     type: Boolean,
     default: false
-  }
+  },
+
+  sizes:[sizesSchema]
 })
 
 class ProductsModel {
@@ -45,7 +58,17 @@ class ProductsModel {
     return this.model.create(data)
   }
 
-  update (data) {
+  async update (data) {    
+    await this.model.updateOne({_id:data._id}, {
+      $pull: {
+        sizes: {
+          _id: {
+            $nin: data.sizes ? data.sizes.map(item => item._id) : []
+          }
+        }
+      }
+    })
+
     return this.model.updateOne({_id:data._id}, data)
   }
 

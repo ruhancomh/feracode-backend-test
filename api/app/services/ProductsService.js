@@ -29,7 +29,8 @@ class ProductsService {
     try {
       let data = {
         model : params.model,
-        description: params.description
+        description: params.description,
+        sizes: params.sizes
       }
 
       let result = await this.productsModel.create(data)
@@ -45,6 +46,7 @@ class ProductsService {
         _id: id,
         model: params.model,
         description: params.description,
+        sizes: params.sizes,
         updated_at: Date.now()
       }
       let result = await this.productsModel.update(data)

@@ -28,14 +28,14 @@ class ProductsModel {
   }
 
   get (id) {
-    return this.model.findById({_id:id})
+    return this.model.findById({_id:id},"-deleted")
       .where({
         deleted: {$ne:true}
       })
   }
 
   list (data) {
-    return this.model.find()
+    return this.model.find({},"-deleted")
       .where({
         deleted: {$ne:true}
       })

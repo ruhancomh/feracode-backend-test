@@ -40,8 +40,19 @@ class ProductsModel {
     this.model = mongoose.model("products",productsSchema)
   }
 
+  static productsSchema () {
+    return productsSchema
+  }
+
   get (id) {
     return this.model.findById({_id:id},"-deleted")
+      .where({
+        deleted: {$ne:true}
+      })
+  }
+
+  getBySize (id) {
+    return this.model.findOne({"sizes._id":id},"-deleted")
       .where({
         deleted: {$ne:true}
       })

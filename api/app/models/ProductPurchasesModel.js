@@ -29,11 +29,12 @@ class ProductPurchasesModel {
     this.model = mongoose.model("product_purchases",productPurchasesSchema)
   }
 
-  list (data) {
-    return this.model.find({},"-deleted")
-      .where({
-        deleted: {$ne:true}
+  findLastPurhcases (sizeId, limit = 2) {
+    return this.model.find({product_size_id: {$eq: sizeId}})
+      .sort({
+        created_at: -1
       })
+      .limit(limit)
   }
 
   create (data) {

@@ -8,6 +8,9 @@ const sizesSchema = mongoose.Schema({
   stock: {
     type: Number,
     default: 0
+  },
+  zeroedOutIn: {
+    type: String
   }
 })
 

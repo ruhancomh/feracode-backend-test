@@ -1,27 +1,12 @@
 'use strict'
 
 import ProductsModel from "./../models/ProductsModel"
+import ProductPurchasesModel from "./../models/ProductPurchasesModel"
+import ConvertTime from "./../utils/ConvertTime"
 
 class ProductsService {
   constructor() {
     this.productsModel = new ProductsModel()
-  }
-
-  getProductStock(product) {
-    if(product.sizes.length > 1){
-      return product.sizes.reduce((v1, v2) => ({sum: v1.stock + v2.stock})).sum
-    } else if(product.sizes.length == 1){
-      return product.sizes[0].stock
-    } else {
-      return 0
-    }
-  }
-
-  proccessData(item) {
-    return {
-      ...item._doc,
-      stock: this.getProductStock(item)
-    }
   }
 
   async get(id) {
@@ -105,6 +90,59 @@ class ProductsService {
       return result
     } catch(err) {
       throw new Error(err.message)
+    }
+  }
+
+  async decreaseStock(quantity, productSizeId, product) {
+    let size = product.sizes.find(item => item._id == productSizeId)
+    size.stock -= quantity
+    size.zeroedOutIn = await this.calculateZeroedOut(size)
+    return this.update(product, product._id)
+  }
+
+  async calculateZeroedOut(size, byQuantityBought = false) {
+    let productPurchasesModel = new ProductPurchasesModel()
+    
+    let lastPurchases = await productPurchasesModel.findLastPurhcases(size._id, 2)
+
+    if(lastPurchases.length == 2){
+      let newerPurchase = lastPurchases[0]
+      let olderPurchase = lastPurchases[1]
+
+      let dateOlder = olderPurchase.created_at.getTime()
+      let dateNewer = newerPurchase.created_at.getTime()
+
+      let purchaseTimeDifference = dateNewer - dateOlder
+
+      let stock = size.stock
+
+      if(byQuantityBought) {
+        stock = (stock / newerPurchase.quantity)
+      }
+
+      purchaseTimeDifference = purchaseTimeDifference * stock
+
+      return ConvertTime.msToHMS(purchaseTimeDifference)
+
+    } else {
+      return ""
+    }
+  }
+
+  getProductStock(product) {
+    if(product.sizes.length > 1){
+      return product.sizes.reduce((v1, v2) => ({sum: v1.stock + v2.stock})).sum
+    } else if(product.sizes.length == 1){
+      return product.sizes[0].stock
+    } else {
+      return 0
+    }
+  }
+
+  proccessData(item) {
+    return {
+      ...item._doc,
+      stock: this.getProductStock(item)
     }
   }
 }

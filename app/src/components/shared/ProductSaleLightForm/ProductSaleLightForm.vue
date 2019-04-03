@@ -114,10 +114,15 @@ export default {
     ]),
 
     async save(fields) {
+      if(!this.hasStock(fields.product_size, fields.quantity)){
+        this.SHOW_ALERT({
+          type: "error",
+          message: "The selected quantity exceeds the current stock"
+        })
+        return false
+      }
+
       this.loading = true
-
-
-      window.console.log(fields)
 
       let controller = new ProductPurchasesController()
       let result = await controller.create(fields)
@@ -138,6 +143,14 @@ export default {
     close() {
         this.show = false
         this.product = false
+    },
+
+    hasStock(sizeId,quantity) {
+      if(this.product.sizes.find(item => item._id == sizeId).stock < quantity){
+        return false
+      } else {
+        return true
+      }
     }
   }
 }

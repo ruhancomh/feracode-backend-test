@@ -53,7 +53,7 @@
                 slot-scope="props"
               >
                 <td>{{ props.item.model }}</td>
-                <td>{{ props.item.sizes ? props.item.sizes.map(item => item.description).join(" / ") : "" }}</td>
+                <td v-html="getSizesInfo(props.item.sizes)"></td>
                 <td>{{ props.item.stock }}</td>
               </template>
               <template
@@ -77,6 +77,7 @@
 
       <product-sale-light-form
         v-model="productToSale"
+        @success="onPurchase()"
       />
     </v-layout>
   </v-container>
@@ -180,6 +181,21 @@ export default {
 
     onBuyItem(item) {
       this.productToSale = item
+    },
+
+    getSizesInfo(sizes) {
+
+      if(sizes){
+        return sizes.map(item => {
+          let zeroedOutIn = item.zeroedOutIn ? `/ Zeroed Out In: ${item.zeroedOutIn} H` : ''
+          return `<b>${item.description}</b> - Stock:${item.stock} ${zeroedOutIn}`
+        }).join("<br/>")
+      } else {
+        return false
+      }
+    },
+    onPurchase(){
+      this.getData()
     }
   },
 

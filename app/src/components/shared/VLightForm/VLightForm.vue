@@ -21,6 +21,7 @@
       v-model="dialogActive"
       :lazy="true"
       :max-width="maxWidth"
+      :persistent="persistent"
     >
       <v-card>
         <v-card-title
@@ -154,6 +155,10 @@ export default {
 
     show: {
       default: false
+    },
+
+    persistent: {
+      default: true
     }
   },
   data() {
@@ -166,8 +171,13 @@ export default {
 
   watch: {
     show: function(nv) {
-      this.dialogActive = nv
+      if(nv != this.dialogActive)
+        this.dialogActive = nv
     },
+    dialogActive: function(nv) {
+      if(nv != this.show)
+        this.$emit('onClose')
+    }
   },
 
   methods: {

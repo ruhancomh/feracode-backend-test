@@ -39,7 +39,7 @@ const productsSchema = mongoose.Schema({
 })
 
 class ProductsModel {
-  constructor() {
+  constructor () {
     this.model = mongoose.model("products",productsSchema)
   }
 

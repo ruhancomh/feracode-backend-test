@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import ProductsModel from "./ProductsModel"
+import ProductsModel from "./products"
 
 const productPurchasesSchema = mongoose.Schema({
   quantity: {
@@ -24,8 +24,7 @@ const productPurchasesSchema = mongoose.Schema({
 })
 
 class ProductPurchasesModel {
-  constructor() {
-    
+  constructor () {
     this.model = mongoose.model("product_purchases",productPurchasesSchema)
   }
 

@@ -1,10 +1,10 @@
 'use strict'
 
-import ProductPurchasesModel from "./../models/ProductPurchasesModel"
-import ProductsService from "./ProductsService"
+import ProductPurchasesModel from "../models/product_purchases"
+import ProductsService from "./products"
 
 class ProductPurchasesService {
-  constructor() {
+  constructor () {
     this.productPurchasesModel = new ProductPurchasesModel()
   }
 
@@ -16,7 +16,7 @@ class ProductPurchasesService {
       let quantity = params.quantity
       let productSizeId = params.product_size
 
-      if(!product) {
+      if (!product) {
         throw new Error(`No products find with size id:${params.product_size}`);
       }
 
@@ -27,15 +27,11 @@ class ProductPurchasesService {
       }
 
       let result = await this.productPurchasesModel.create(data)
-
-      // let purchasedSize = product.sizes.find(item => item._id == params.product_size)
-      // purchasedSize.stock -= params.quantity
-      // purchasedSize.zeroedOutIn = await this.calculateZeroedOut(purchasedSize)
       
       await productsService.decreaseStock(quantity, productSizeId, product)
 
       return result
-    } catch(err) {
+    } catch (err) {
       throw new Error(err.message)
     }
   }

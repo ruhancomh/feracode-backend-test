@@ -1,20 +1,20 @@
 "use strict"
 
-import ProductPurchasesService from "../services/ProductPurchasesService"
+import ProductPurchasesService from "../services/product_purchases"
 
 class ProductsController {
-  constructor() {
+  constructor () {
     this.service = new ProductPurchasesService()
   }
 
-  async create (req, res, next){
-    try{
+  async create (req, res, next) {
+    try{ 
       let result = await this.service.create(req.body)
       return res.status(200).send({
         success: true,
         data: result
       })
-    } catch(err) {
+    } catch (err) {
       return res.status(400).send({
         success: false,
         message: err.message

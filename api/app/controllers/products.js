@@ -1,20 +1,20 @@
 "use strict"
 
-import ProductsService from "../services/ProductsService"
+import ProductsService from "../services/products"
 
 class ProductsController {
-  constructor() {
+  constructor () {
     this.service = new ProductsService()
   }
 
-  async get (req, res, next){
-    try{
+  async get (req, res, next) {
+    try {
       let result = await this.service.get(req.params.id)
       return res.status(200).send({
         success: true,
         data: result
       })
-    } catch(err) {
+    } catch (err) {
       return res.status(400).send({
         success: false,
         message: err.message
@@ -31,7 +31,7 @@ class ProductsController {
         success: true,
         data: result
       })
-    } catch(err) {
+    } catch (err) {
       return res.status(400).send({
         success: false,
         message: err.message
@@ -41,13 +41,13 @@ class ProductsController {
 
 
   async create (req, res, next){
-    try{
+    try {
       let result = await this.service.create(req.body)
       return res.status(200).send({
         success: true,
         data: result
       })
-    } catch(err) {
+    } catch (err) {
       return res.status(400).send({
         success: false,
         message: err.message
@@ -62,7 +62,7 @@ class ProductsController {
         success: true,
         data: result
       })
-    } catch(err) {
+    } catch (err) {
       return res.status(400).send({
         success: false,
         message: err.message
@@ -77,7 +77,7 @@ class ProductsController {
         success: true,
         data: result
       })
-    } catch(err) {
+    } catch (err) {
       return res.status(400).send({
         success: false,
         message: err.message

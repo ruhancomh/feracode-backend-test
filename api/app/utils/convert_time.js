@@ -5,7 +5,7 @@ String.prototype.paddingLeft = function (paddingValue) {
 };
 
 class ConvertTime {
-  static msToHMS(miliseconds){
+  static msToHMS (miliseconds) {
     let seconds = miliseconds / 1000;
     let hours = parseInt( seconds / 3600 );
     seconds = seconds % 3600;

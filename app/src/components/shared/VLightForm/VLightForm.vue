@@ -33,6 +33,10 @@
             @submit.prevent=""
             ref="form"
           >
+              <v-container
+                fluid
+                fill-height
+              >
             <v-layout
               row
               wrap
@@ -43,6 +47,7 @@
                 v-bind:rules="rules"
               ></slot>
             </v-layout>
+            </v-container>
           </v-form>
         </v-card-text>
         <v-card-actions>

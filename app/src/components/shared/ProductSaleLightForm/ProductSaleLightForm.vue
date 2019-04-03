@@ -1,8 +1,8 @@
 <template>
   <v-light-form
     ref="lightForm"
-    title="Registrar compra"
-    tooltip-text="Registrar compra"
+    title="Register purchase"
+    tooltip-text="Register purchase"
     :loading="loading"
     :rules="{required:formRules.default.required}"
     :required-data-empty="isRequiredDataEmpty"
@@ -25,11 +25,43 @@
           disabled
         ></v-text-field>
       </v-flex>
+      <v-flex
+        xs6
+      >
+        <v-select
+          v-model="props.fields.product_size"
+          :items="product.sizes"
+          label="Size"
+          item-text="description"
+          item-value="_id"
+          :rules="[formRules.default.required]"
+          required
+        >
+          <template v-slot:item="data">
+            <v-list-tile-content v-if="data.item">
+              <v-list-tile-title v-html="data.item.description"></v-list-tile-title>
+              <v-list-tile-sub-title>Sotck : {{ data.item.stock }}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </template>
+        </v-select>
+      </v-flex>
+      <v-flex
+        xs6
+      >
+        <v-text-field
+          v-model="props.fields.quantity"
+          label="Quantity"
+          type="number"
+          :rules="[formRules.default.required]"
+          required
+        ></v-text-field>
+      </v-flex>
     </template>
   </v-light-form>
 </template>
 
 <script>
+import { ProductPurchasesController } from "../../../controllers/ProductPurchasesController"
 import { mapMutations } from "vuex"
 import VLightForm from "../VLightForm/VLightForm"
 
@@ -82,22 +114,25 @@ export default {
     ]),
 
     async save(fields) {
-    //   this.loading = true
+      this.loading = true
 
-    //   let veiculosController = new VeiculosController()
-    //   let result = await veiculosController.create(fields)
 
-    //   this.SHOW_ALERT({
-    //     type: result.error ? "error" : "success",
-    //     message: result.message
-    //   })
+      window.console.log(fields)
 
-    //   if (!result.error){
-    //     this.$refs.lightForm.closeDialog()
-    //     this.$emit('success', result.data)
-    //   }
+      let controller = new ProductPurchasesController()
+      let result = await controller.create(fields)
 
-    //   this.loading = false
+      this.SHOW_ALERT({
+        type: result.error ? "error" : "success",
+        message: result.message
+      })
+
+      if (!result.error){
+        this.$refs.lightForm.closeDialog()
+        this.$emit('success', result.data)
+      }
+
+      this.loading = false
     },
 
     close() {

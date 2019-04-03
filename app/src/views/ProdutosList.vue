@@ -53,6 +53,8 @@
                 slot-scope="props"
               >
                 <td>{{ props.item.model }}</td>
+                <td>{{ props.item.sizes ? props.item.sizes.map(item => item.description).join(" / ") : "" }}</td>
+                <td>{{ props.item.stock }}</td>
               </template>
               <template
                 slot="actions"
@@ -107,6 +109,18 @@ export default {
           align: "left",
           sortable: true,
           value: "model"
+        },
+        {
+          text: "Sizes",
+          align: "left",
+          sortable: false,
+          value: "sizes"
+        },
+        {
+          text: "Stock",
+          align: "left",
+          sortable: false,
+          value: "stock"
         }
       ],
       tableData: {

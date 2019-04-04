@@ -63,7 +63,7 @@ class ProductsController {
 
   async delete (req, res, next) {
     try {
-      let result = await this.service.delete(req.params.id)
+      let result = await this.service.hide(req.params.id)
       return res.status(204).send()
     } catch (err) {
       return res.status(400).send({        

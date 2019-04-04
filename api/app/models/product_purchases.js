@@ -40,6 +40,10 @@ class ProductPurchasesModel {
     return this.model.create(data)
   }
 
+  delete (id) {
+    return this.model.deleteOne({_id:id})
+  }
+
 }
 
 module.exports = ProductPurchasesModel

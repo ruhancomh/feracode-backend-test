@@ -25,7 +25,7 @@
     "mocha": "^6.0.2"
   },
   "scripts": {
-    "test": "mocha --require @babel/register tests/*.js --exit",
+    "test": "mocha --require @babel/register tests/*.test.js --exit",
     "start": "nodemon --exec babel-node app.js"
   },
   "repository": {

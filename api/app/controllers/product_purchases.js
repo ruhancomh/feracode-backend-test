@@ -10,13 +10,24 @@ class ProductsController {
   async create (req, res, next) {
     try{ 
       let result = await this.service.create(req.body)
-      return res.status(200).send({
+      return res.status(201).send({
         success: true,
         data: result
       })
     } catch (err) {
       return res.status(400).send({
         success: false,
+        message: err.message
+      })
+    }
+  }
+
+  async delete (req, res, next) {
+    try {
+      let result = await this.service.delete(req.params.id)
+      return res.status(204).send()
+    } catch (err) {
+      return res.status(400).send({        
         message: err.message
       })
     }

@@ -114,13 +114,30 @@ class ProductsService {
     }
   }
 
-  async delete (id) {
+  async hide (id) {
     try {
       let product = await this.productsModel.get(id)
+
+      if(!product)
+        throw Error(`No record found to id:${id}`)
       
       product.deleted = true
 
       let result = await this.productsModel.update(product)
+
+      return result
+    } catch (err) {
+      throw new Error(err.message)
+    }
+  }
+
+  async delete (id) {
+    try {
+
+      let result = await this.productsModel.delete(id)
+
+      if (result.n <= 0)
+        throw Error(`No record found to id:${id}`)
 
       return result
     } catch (err) {

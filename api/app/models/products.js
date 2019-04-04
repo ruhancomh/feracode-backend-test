@@ -124,6 +124,10 @@ class ProductsModel {
     return this.model.updateOne({_id:data._id}, data)
   }
 
+  delete (id) {
+    return this.model.deleteOne({_id:id})
+  }
+
 }
 
 module.exports = ProductsModel

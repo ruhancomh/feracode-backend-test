@@ -1,31 +1,28 @@
 import chai from "chai"
 import chaiHttp from "chai-http"
 import app from "./../app"
+import ProductsFactory from "./utils/products_factory"
 
 chai.use(chaiHttp)
 chai.should()
 
-let product = {
-  model: "It's a test model",
-  description: "It's a test decription",
-  sizes: [
-    {
-      description: "Large",
-      stock: 100
-    },
-    {
-      description: "Small",
-      stock: 50
-    }
-  ]
-}
+const baseUrl = "/products"
 
 describe("Products", () => {
   describe("POST /", () => {
+    let product
+
+    after( async () => {
+      let factory = new ProductsFactory()
+      await factory.delete([product])
+    })
+
     it("should add new product", (done) => {
+      let factory = new ProductsFactory()
+
       chai.request(app)
-        .post("/products")
-        .send(product)
+        .post(`${baseUrl}`)
+        .send(factory.getProductBase())
         .end((err, res) => {
           if(err){
             done(err)
@@ -36,7 +33,7 @@ describe("Products", () => {
             res.body.data.should.be.a('object')
 
             product = res.body.data
-
+            
             done()
           }
         })
@@ -44,13 +41,25 @@ describe("Products", () => {
   })
 
   describe("PUT /{id}", () => {
+    let product
+
+    before( async () => {
+      let factory = new ProductsFactory()
+      product = await factory.create()
+    })
+
+    after( async () => {
+      let factory = new ProductsFactory()
+      await factory.delete([product])
+    })
+
     it("should update a product", (done) => {
 
       product.model = 'Updated model'
       product.description = 'Updated description'
 
       chai.request(app)
-        .put(`/products/${product._id}`)
+        .put(`${baseUrl}/${product._id}`)
         .send(product)
         .end((err, res) => {
           if(err){
@@ -70,7 +79,7 @@ describe("Products", () => {
       product.sizes = product.sizes.splice(0,1)
 
       chai.request(app)
-        .put(`/products/${product._id}`)
+        .put(`${baseUrl}/${product._id}`)
         .send(product)
         .end((err, res) => {
           if(err){
@@ -88,9 +97,21 @@ describe("Products", () => {
   })
 
   describe("GET /{id}", () => {
+    let product
+
+    before( async () => {
+      let factory = new ProductsFactory()
+      product = await factory.create()
+    })
+
+    after( async () => {
+      let factory = new ProductsFactory()
+      await factory.delete([product])
+    })
+
     it("should get a product", (done) => {
       chai.request(app)
-        .get(`/products/${product._id}`)
+        .get(`${baseUrl}/${product._id}`)
         .end((err, res) => {
           if(err){
             done(err)
@@ -107,9 +128,21 @@ describe("Products", () => {
   })
 
   describe("GET /", () => {
+    let product
+
+    before( async () => {
+      let factory = new ProductsFactory()
+      product = await factory.create()
+    })
+
+    after( async () => {
+      let factory = new ProductsFactory()
+      await factory.delete([product])
+    })
+
     it("should get all products", (done) => {
       chai.request(app)
-        .get("/products")
+        .get(`${baseUrl}`)
         .end((err, res) => {
           if(err){
             done(err)
@@ -126,7 +159,7 @@ describe("Products", () => {
 
     it("should get all products with: filter, pagination, order", (done) => {
       chai.request(app)
-        .get("/products")
+        .get(`${baseUrl}`)
         .query({
           page: 1,
           limit: 1,
@@ -150,9 +183,16 @@ describe("Products", () => {
   })
 
   describe("DELETE /{id}", () => {
+    let product
+
+    before( async () => {
+      let factory = new ProductsFactory()
+      product = await factory.create()
+    })
+    
     it("should delete a product", (done) => {
       chai.request(app)
-        .delete(`/products/${product._id}`)
+        .delete(`${baseUrl}/${product._id}`)
         .end((err, res) => {
           if(err){
             done(err)

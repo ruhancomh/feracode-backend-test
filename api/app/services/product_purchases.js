@@ -36,5 +36,19 @@ class ProductPurchasesService {
     }
   }
 
+  async delete (id) {
+    try {
+
+      let result = await this.productPurchasesModel.delete(id)
+
+      if (result.n <= 0)
+        throw Error(`No record found to id:${id}`)
+
+      return result
+    } catch (err) {
+      throw new Error(err.message)
+    }
+  }
+
 }
 module.exports = ProductPurchasesService

@@ -24,8 +24,7 @@ class ProductsController {
 
   async list (req, res, next) {
     try {
-      let params = {}
-      let result = await this.service.list(params)
+      let result = await this.service.list(req.query)
 
       return res.status(200).send({
         success: true,

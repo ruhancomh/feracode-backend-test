@@ -35,14 +35,42 @@ class ProductsService {
   async list (data) {
     try {
       let self = this
-      let result = await this.productsModel.list(data)
+
+      let alowedFilters = ['model']
+
+      let filter = data.filter ?
+        data.filter.split(',').map(item => {
+          item = item.split(':')
+          if(item.length>1 && item[1] !== '')
+            return item
+          else
+            return false
+        }).filter(item => item !== false && alowedFilters.includes(item[0]))
+        : []
+      
+      let limit = parseInt(data.limit) ? parseInt(data.limit) : 10
+      
+      let offset = limit * ( data.page ? data.page - 1 : 0)
+
+      let params = {
+        limit: limit,
+        offset: offset,
+        sort_by: data.sort_by ? data.sort_by : 'id',
+        sort_direction: data.sort_direction == 'asc' ? 1 : -1,
+        filter: filter
+      }
+      let total = await this.productsModel.count(params)
+      let result = await this.productsModel.list(params)
 
       if (result)
         result = result.map(item => {
           return self.proccessData(item)
         })
 
-      return result
+      return {
+        data: result,
+        total: total
+      }
     } catch (err) {
       throw new Error(err.message)
     }
@@ -132,7 +160,7 @@ class ProductsService {
 
   getProductStock (product) {
     if (product.sizes.length > 1) {
-      return product.sizes.reduce((v1, v2) => ({sum: v1.stock + v2.stock})).sum
+      return product.sizes.map(item => item.stock).reduce((v1,v2) => v1+v2)
     } else if (product.sizes.length == 1) {
       return product.sizes[0].stock
     } else {

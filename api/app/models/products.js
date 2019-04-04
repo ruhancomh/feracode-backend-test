@@ -62,7 +62,45 @@ class ProductsModel {
   }
 
   list (data) {
-    return this.model.find({},"-deleted")
+
+    let filter = {}
+    let sort = {}
+    
+    sort[data.sort_by] = data.sort_direction
+
+    if (data.filter) {
+      data.filter.forEach(element => {
+        switch (element[0]) {
+          case 'model':
+            filter[element[0]] = {$regex: '.*' + element[1] + '.*'}
+          break;
+        }
+      });
+    }
+
+    return this.model.find(filter, "-deleted")
+      .where({
+        deleted: {$ne:true}
+      })
+      .skip(data.offset)
+      .limit(data.limit)
+      .sort(sort)
+  }
+
+  count (data) {
+    let filter = {}
+    
+    if (data.filter) {
+      data.filter.forEach(element => {
+        switch (element[0]) {
+          case 'model':
+            filter[element[0]] = {$regex: '.*' + element[1] + '.*'}
+          break;
+        }
+      });
+    }
+
+    return this.model.countDocuments(filter)
       .where({
         deleted: {$ne:true}
       })

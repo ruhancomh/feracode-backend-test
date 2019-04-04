@@ -60,20 +60,20 @@ export default {
         {
           group: true,
           icon: 'mdi-clipboard-text',
-          title: 'Produtos',
+          title: 'Products',
 
           links: [
             {
               group: false,
               icon: "add",
-              title: "Adicionar novo",
-              to: "/produtos/adicionar"
+              title: "Add new",
+              to: "/products/add"
             },
             {
               group: false,
               icon: "mdi-view-list",
-              title: "Listar todos",
-              to: "/produtos"
+              title: "List all",
+              to: "/products"
             },
           ]
         }

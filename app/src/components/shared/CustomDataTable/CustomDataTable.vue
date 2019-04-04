@@ -12,7 +12,7 @@
             @click="getData()"
           >
             <v-icon dark>search</v-icon>
-            Buscar
+            Search
           </v-btn>
         </v-layout>
       </v-container>

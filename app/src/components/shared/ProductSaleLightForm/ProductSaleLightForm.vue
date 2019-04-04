@@ -6,7 +6,7 @@
     :loading="loading"
     :rules="{required:formRules.default.required}"
     :required-data-empty="isRequiredDataEmpty"
-    :required-data-empty-text="'Este produto não possui <b>tamanhos</b> para registrar a compra.'"
+    :required-data-empty-text="'This product does not have any size.'"
     :show-tooltip="false"
     :show="show"
     @confirm="save($event)"
@@ -79,7 +79,7 @@ export default {
       loading: false,
       formRules: {
         default: {
-          required: value => !!value || "Campo obrigatório"
+          required: value => !!value || "Required field"
         }
       },
 
@@ -118,6 +118,14 @@ export default {
         this.SHOW_ALERT({
           type: "error",
           message: "The selected quantity exceeds the current stock"
+        })
+        return false
+      }
+
+      if (fields.quantity <=0) {
+        this.SHOW_ALERT({
+          type: "error",
+          message: "The selected quantity should be higher than 0"
         })
         return false
       }

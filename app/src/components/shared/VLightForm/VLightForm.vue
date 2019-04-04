@@ -57,7 +57,7 @@
             flat="flat"
             @click="closeDialog()"
           >
-            Cancelar
+            Cancel
           </v-btn>
           <v-btn
             color="primary"
@@ -65,7 +65,7 @@
             :loading="loading"
             @click="confirm()"
           >
-            Confirmar
+            Confirm
           </v-btn>
         </v-card-actions>
       </v-card>

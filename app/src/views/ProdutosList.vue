@@ -16,7 +16,7 @@
             <v-btn
               color="primary"
               large
-              to="produtos/adicionar"
+              to="products/add"
             >
               <v-icon dark>add</v-icon>
               Add new product
@@ -87,7 +87,7 @@
 import CustomDataTable from "./../components/shared/CustomDataTable/CustomDataTable"
 import ProductSaleLightForm from "./../components/shared/ProductSaleLightForm/ProductSaleLightForm"
 
-import { ProdutosController } from "../controllers/ProdutosController"
+import { ProductsController } from "../controllers/ProductsController"
 
 import { mapMutations } from "vuex"
 
@@ -141,8 +141,8 @@ export default {
       let filters = this.tableIpunt.filters
       let pagination = this.tableIpunt.pagination
 
-      let produtosController = new ProdutosController()
-      let result = await produtosController.list(
+      let productsController = new ProductsController()
+      let result = await productsController.list(
         filters,
         pagination.page,
         pagination.rowsPerPage,
@@ -153,14 +153,14 @@ export default {
       if (result.error) {
         this.tableData = []
       } else {
-        this.tableData = result.data
+        this.tableData = result.data.data
       }
     },
 
     async onDeleteItem(item) {
       this.SHOW_LOADER()
-      let produtosController = new ProdutosController()
-      let result = await produtosController.delete(item)
+      let productsController = new ProductsController()
+      let result = await productsController.delete(item)
       this.CLOSE_LOADER()
 
       this.SHOW_ALERT({
@@ -172,7 +172,7 @@ export default {
     },
 
     onEditItem(item) {
-      this.$router.push({ path: `/produtos/editar/${item}` })
+      this.$router.push({ path: `/products/editar/${item}` })
     },
 
     formatCategorias (categorias){
@@ -188,7 +188,7 @@ export default {
       if(sizes){
         return sizes.map(item => {
           let zeroedOutIn = item.zeroedOutIn ? `/ Zeroed Out In: ${item.zeroedOutIn} H` : ''
-          return `<b>${item.description}</b> - Stock:${item.stock} ${zeroedOutIn}`
+          return `<b>${item.description}</b> - Stock:${item.stock ? item.stock : 0} ${zeroedOutIn}`
         }).join("<br/>")
       } else {
         return false

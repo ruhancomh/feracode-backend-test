@@ -10,24 +10,24 @@ export default [
 
   // Produtos
   {
-    path: '/produtos',
+    path: '/products',
     view: 'ProdutosList',
     meta: {
-      title: 'Produtos',
+      title: 'Products',
     },
   },
   {
-    path: '/produtos/adicionar',
+    path: '/products/add',
     view: 'ProdutosAdd',
     meta: {
-      title: 'Adicionar novo produto',
+      title: 'Add new product',
     },
   },
   {
-    path: '/produtos/editar/:id',
+    path: '/products/editar/:id',
     view: 'ProdutosEdit',
     meta: {
-      title: 'Editar produto',
+      title: 'Edit product',
     },
   },
 ]

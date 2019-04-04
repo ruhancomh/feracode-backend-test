@@ -41,7 +41,7 @@
                 </v-layout>
                 <v-layout row wrap>
                    <v-subheader>
-                     Tamanhos
+                     Sizes
                    </v-subheader>
                 </v-layout>
                 <v-layout
@@ -86,7 +86,7 @@
                     xs12
                     md1
                   >
-                    <v-btn color="error" fab small dark @click="removeSize(key)" title="Remover tamanho">
+                    <v-btn color="error" fab small dark @click="removeSize(key)" title="Delete size">
                       <v-icon>delete</v-icon>
                     </v-btn>
                   </v-flex>
@@ -96,9 +96,9 @@
                     xs12
                     md2
                   >
-                  <v-btn color="primary" large dark title="Adicionar novo tamanho" @click="addSize">
+                  <v-btn color="primary" large dark title="Add new size" @click="addSize">
                     <v-icon>mdi-library-plus</v-icon>
-                    Adicionar tamanho
+                    Add size
                   </v-btn>
                   </v-flex>
                 </v-layout>
@@ -115,7 +115,7 @@
               :loading="loading"
               @click="save"
             >
-              Salvar
+              Save
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { ProdutosController } from "../controllers/ProdutosController"
+import { ProductsController } from "../controllers/ProductsController"
 
 import { mapMutations } from "vuex"
 
@@ -137,7 +137,7 @@ export default {
       formFields: {},
       formRules: {
         default: {
-          required: value => !!value || "Campo obrigatório"
+          required: value => !!value || "Required field"
         }
       },
 
@@ -155,8 +155,8 @@ export default {
     async loadEntity() {
       this.SHOW_LOADER()
 
-      let produtosController = new ProdutosController()
-      let result = await produtosController.get(this.getEntityID())
+      let productsController = new ProductsController()
+      let result = await productsController.get(this.getEntityID())
 
       this.CLOSE_LOADER()
 
@@ -168,7 +168,7 @@ export default {
           message: result.message
         })
 
-        this.$router.push({ path: `/produtos` })
+        this.$router.push({ path: `/products` })
       }
     },
 
@@ -176,8 +176,8 @@ export default {
       if (this.valid) {
         this.loading = true
 
-        let produtosController = new ProdutosController()
-        let result = await produtosController.update(this.formFields)
+        let productsController = new ProductsController()
+        let result = await productsController.update(this.formFields)
 
         this.SHOW_ALERT({
           type: result.error ? "error" : "success",
@@ -203,7 +203,7 @@ export default {
     },
 
     addSize() {
-      this.formFields.sizes.push(ProdutosController.getSizeModel())
+      this.formFields.sizes.push(ProductsController.getSizeModel())
     },
 
     removeSize(key) {
@@ -212,7 +212,7 @@ export default {
   },
 
   async created() {
-    this.SET_TOOLBAR_BACK_URL('/produtos')
+    this.SET_TOOLBAR_BACK_URL('/products')
     await this.loadEntity()
   }
 }

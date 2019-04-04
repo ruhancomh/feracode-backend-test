@@ -1,13 +1,13 @@
 'use strict'
-import { Produtos } from '../models/Produtos';
+import { Products } from '../models/Products';
 import { ProductSizes } from '../models/ProductSizes';
 import { BaseController } from './BaseController';
 
-export class ProdutosController extends BaseController {
+export class ProductsController extends BaseController {
   _baseApiUrl = 'products'
 
   static getModel() {
-    return new Produtos()
+    return new Products()
   }
 
   static getSizeModel() {
@@ -16,15 +16,15 @@ export class ProdutosController extends BaseController {
 
   async create(params) {
     try {
-      let produto = new Produtos(
+      let product = new Products(
         params.model,
         params.description,
         params.sizes
       )
 
-      let result = await this._request.post(this._baseApiUrl, produto)
+      let result = await this._request.post(this._baseApiUrl, product)
       
-      return this.response('Produto adicionado com sucesso.', result.data)
+      return this.response('Product successfully added.', result.data)
     } catch (error) {
       return this.response(false, false, error)
     }
@@ -32,15 +32,15 @@ export class ProdutosController extends BaseController {
 
   async update(params) {
     try {
-      let produto = new Produtos(
+      let product = new Products(
         params.model,
         params.description,
         params.sizes,
         params._id
       )
 
-      let result = await this._request.put(`${this._baseApiUrl}/${produto._id}`, produto)
-      return this.response('Produto editado com sucesso.', result.data)
+      let result = await this._request.put(`${this._baseApiUrl}/${product._id}`, product)
+      return this.response('Product successfully updated.', result.data)
     } catch (error) {
       return this.response(false, false, error)
     }
@@ -49,8 +49,8 @@ export class ProdutosController extends BaseController {
   async get(id) {
     try {
       let result = await this._request.get(`${this._baseApiUrl}/${id}`)
-      let produto = result.data
-      return this.response('Produto carregado com sucesso.', produto)
+      let product = result.data
+      return this.response('Product successfully loaded.', product)
     } catch (error) {
       return this.response(false, false, error)
     }
@@ -69,7 +69,7 @@ export class ProdutosController extends BaseController {
   async delete(id) {
     try {
       let result = await this._request.delete(`${this._baseApiUrl}/${id}`)
-      return this.response('Produto removido com sucesso.', result.data)
+      return this.response('Product successfully deleted.', result.data)
     } catch (error) {
       return this.response(false, false, error)
     }

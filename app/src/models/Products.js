@@ -1,6 +1,6 @@
 'use strict'
 
-export class Produtos {
+export class Products {
 
   constructor(
     model = null,

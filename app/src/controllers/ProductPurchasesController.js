@@ -13,7 +13,7 @@ export class ProductPurchasesController extends BaseController {
 
       let result = await this._request.post(this._baseApiUrl, data)
       
-      return this.response(`Você comprou ${data.quantity} produtos`, result.data)
+      return this.response(`You bought ${data.quantity} items`, result.data)
     } catch (error) {
       return this.response(false, false, error)
     }

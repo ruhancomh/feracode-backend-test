@@ -10,13 +10,11 @@ class ProductsController {
   async get (req, res, next) {
     try {
       let result = await this.service.get(req.params.id)
-      return res.status(200).send({
-        success: true,
+      return res.status(200).send({        
         data: result
       })
     } catch (err) {
-      return res.status(400).send({
-        success: false,
+      return res.status(400).send({        
         message: err.message
       })
     }
@@ -26,13 +24,11 @@ class ProductsController {
     try {
       let result = await this.service.list(req.query)
 
-      return res.status(200).send({
-        success: true,
+      return res.status(200).send({        
         data: result
       })
     } catch (err) {
-      return res.status(400).send({
-        success: false,
+      return res.status(400).send({        
         message: err.message
       })
     }
@@ -42,13 +38,11 @@ class ProductsController {
   async create (req, res, next){
     try {
       let result = await this.service.create(req.body)
-      return res.status(200).send({
-        success: true,
+      return res.status(201).send({        
         data: result
       })
     } catch (err) {
-      return res.status(400).send({
-        success: false,
+      return res.status(400).send({        
         message: err.message
       })
     }
@@ -57,13 +51,11 @@ class ProductsController {
   async update (req, res, next) {
     try {
       let result = await this.service.update(req.body, req.params.id)
-      return res.status(200).send({
-        success: true,
+      return res.status(200).send({        
         data: result
       })
     } catch (err) {
-      return res.status(400).send({
-        success: false,
+      return res.status(400).send({        
         message: err.message
       })
     }
@@ -72,13 +64,9 @@ class ProductsController {
   async delete (req, res, next) {
     try {
       let result = await this.service.delete(req.params.id)
-      return res.status(200).send({
-        success: true,
-        data: result
-      })
+      return res.status(204).send()
     } catch (err) {
-      return res.status(400).send({
-        success: false,
+      return res.status(400).send({        
         message: err.message
       })
     }

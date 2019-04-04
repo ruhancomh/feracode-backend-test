@@ -102,6 +102,12 @@ class ProductsService {
       }
 
       let result = await this.productsModel.update(data)
+
+      if (result.n <= 0)
+        throw Error(`No record found to id:${id}`)
+
+      result = await this.get(id)
+
       return result
     } catch (err) {
       throw new Error(err.message)

@@ -7,6 +7,8 @@ import routes from "../routes"
 
 module.exports = function () {
   let db = mongoose()
+
+  db.on('error', console.error.bind(console, 'connection error:'));
  
   let app = express()
 

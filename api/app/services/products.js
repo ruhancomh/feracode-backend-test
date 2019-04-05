@@ -153,7 +153,7 @@ class ProductsService {
     return this.update(product, product._id)
   }
 
-  async calculateZeroedOut (size, byQuantityBought = false) {
+  async calculateZeroedOut (size, byQuantityBought = true) {
     let productPurchasesModel = new ProductPurchasesModel()
     
     let lastPurchases = await productPurchasesModel.findLastPurhcases(size._id, 2)
@@ -170,7 +170,7 @@ class ProductsService {
       let stock = size.stock
 
       if (byQuantityBought) {
-        stock = (stock / newerPurchase.quantity)
+        stock = (stock / parseInt((newerPurchase.quantity + olderPurchase.quantity) / 2))
       }
 
       purchaseTimeDifference = purchaseTimeDifference * stock

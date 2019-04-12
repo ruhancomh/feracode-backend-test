@@ -9,7 +9,7 @@ module.exports = function () {
 
   //mongoose.connect(`mongodb://${databaseUser}:${databasePassword}@${databaseUrl}:${databasePort}/${databaseName}?authSource=admin`,{ useNewUrlParser: true });
 
-  mongoose.connect(`mongodb://${databaseUrl}:${databasePort}/admin`, {
+  mongoose.connect(`mongodb://${databaseUrl}:${databasePort}`, {
     user: databaseUser,
     pass: databasePassword,
     dbName: databaseName,

@@ -14,3 +14,8 @@ A SPA foi desenvolvida utilizando **VueJS**, **Vuex**, **VueRouter**, **Axios** 
 - Abre outra janela do terminal e acesse o diretório `feracode-backend-test/app`
 - Instale as dependências com o comando `npm install` e em seguida inicie o servidor com o comando `npm start`
 - Pronto, agora basta acessar a aplicação na url `http://localhost:8080`
+
+## Como rodar o projeto com docker?
+- Primeiramente é necessário ter instalado o **docker** e o **docker-compose**
+- Acessar o diretório raiz do projeto e executar o comando `docker-compose up --build`
+- Após os containers estarem todos prontos, a aplicação estará disponivel na url `http://localhost:8080`

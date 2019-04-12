@@ -1,0 +1,62 @@
+version: "3.7"
+services:
+  database:
+    image: mongo
+    env_file:
+      - ./api/.env
+    container_name: database
+    volumes:
+      - "./api/database:/data/db"
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$${DATABASE_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=$${DATABASE_PASSWORD}
+      - MONGO_INITDB_DATABASE=$${DATABASE_NAME}
+    ports:
+      - "27017:27017"
+    networks:
+      - production-network
+  api:
+    build:
+      dockerfile: ./docker/api-node.dockerfile
+      context: .
+    image: ruhanoliveira/api-node
+    restart: always
+    container_name: api-node
+    volumes:
+      - ./api:/var/www
+      - /var/www/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - production-network
+    depends_on:
+      - "database"
+  # app:
+  #   build:
+  #     dockerfile: ./docker/app-build.dockerfile
+  #     context: .
+  #   image: ruhanoliveira/app-build
+  #   container_name: app-build
+  #   volumes:
+  #     - ./app:/var/www
+  #     - /var/www/node_modules
+  nginx:
+    build:
+      dockerfile: ./docker/nginx.dockerfile
+      context: .
+    image: ruhanoliveira/nginx
+    container_name: nginx
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:80"
+    networks:
+      - production-network
+    depends_on:
+      - api
+networks:
+  production-network:
+    name: production-network
+    driver: bridge

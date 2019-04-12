@@ -7,7 +7,14 @@ module.exports = function () {
   let databaseUser = process.env.DATABASE_USER
   let databasePassword = process.env.DATABASE_PASSWORD
 
-  mongoose.connect(`mongodb://${databaseUser}:${databasePassword}@${databaseUrl}:${databasePort}/${databaseName}`,{ useNewUrlParser: true });
+  //mongoose.connect(`mongodb://${databaseUser}:${databasePassword}@${databaseUrl}:${databasePort}/${databaseName}?authSource=admin`,{ useNewUrlParser: true });
+
+  mongoose.connect(`mongodb://${databaseUrl}:${databasePort}/admin`, {
+    user: databaseUser,
+    pass: databasePassword,
+    dbName: databaseName,
+    useNewUrlParser: true
+  })
 
   return mongoose.connection
 }
